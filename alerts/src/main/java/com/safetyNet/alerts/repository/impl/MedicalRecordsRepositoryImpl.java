@@ -54,4 +54,9 @@ public class MedicalRecordsRepositoryImpl implements MedicalRecordsRepository {
 
 	}
 
+	@Override
+	public void clear() {
+		list.clear();
+	}
+
 }

@@ -51,4 +51,9 @@ public class FireStationRepositoryImpl implements FireStationRepository {
 		list.addAll(elements);
 	}
 
+	@Override
+	public void clear() {
+		list.clear();
+	}
+
 }

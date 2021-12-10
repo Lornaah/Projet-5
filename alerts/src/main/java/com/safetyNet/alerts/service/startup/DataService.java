@@ -16,15 +16,15 @@ import com.safetyNet.alerts.repository.PersonRepository;
 public class DataService implements CommandLineRunner {
 	@Autowired
 	@Qualifier("personRepoSingleton")
-	PersonRepository personRepository;
+	private PersonRepository personRepository;
 
 	@Autowired
 	@Qualifier("fireStationRepoSingleton")
-	FireStationRepository fireStationRepository;
+	private FireStationRepository fireStationRepository;
 
 	@Autowired
 	@Qualifier("medicalRecordsRepoSingleton")
-	MedicalRecordsRepository medicalRecordsRepository;
+	private MedicalRecordsRepository medicalRecordsRepository;
 
 	@Override
 	public void run(String... args) throws Exception {

@@ -53,4 +53,9 @@ public class PersonRepositoryImpl implements PersonRepository {
 	public void addAll(List<Person> elements) {
 		list.addAll(elements);
 	}
+
+	@Override
+	public void clear() {
+		list.clear();
+	}
 }
