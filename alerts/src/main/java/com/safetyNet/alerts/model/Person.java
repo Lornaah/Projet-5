@@ -1,12 +1,12 @@
 package com.safetyNet.alerts.model;
 
-import javax.persistence.Entity;
+import java.util.Objects;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import org.hibernate.annotations.GenericGenerator;
 
-@Entity
 public class Person {
 
 	@Id
@@ -83,4 +83,22 @@ public class Person {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(firstName, lastName);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Person other = (Person) obj;
+		return Objects.equals(firstName, other.firstName) && Objects.equals(lastName, other.lastName);
+	}
+
 }

@@ -1,6 +1,9 @@
 package com.safetyNet.alerts.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class MedicalRecords {
 
@@ -10,9 +13,9 @@ public class MedicalRecords {
 
 	private String birthdate;
 
-	private List<String> medications;
+	private final List<String> medications = new ArrayList<>();
 
-	private List<String> allergies;
+	private final List<String> allergies = new ArrayList<>();
 
 	public String getFirstName() {
 		return firstName;
@@ -39,18 +42,37 @@ public class MedicalRecords {
 	}
 
 	public List<String> getMedications() {
-		return medications;
+		return Collections.unmodifiableList(medications);
 	}
 
 	public void setMedications(List<String> medications) {
-		this.medications = medications;
+		this.medications.clear();
+		this.medications.addAll(medications);
 	}
 
 	public List<String> getAllergies() {
-		return allergies;
+		return Collections.unmodifiableList(allergies);
 	}
 
 	public void setAllergies(List<String> allergies) {
-		this.allergies = allergies;
+		this.allergies.clear();
+		this.allergies.addAll(allergies);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(firstName, lastName);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		MedicalRecords other = (MedicalRecords) obj;
+		return Objects.equals(firstName, other.firstName) && Objects.equals(lastName, other.lastName);
 	}
 }

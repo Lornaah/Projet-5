@@ -1,30 +1,39 @@
 package com.safetyNet.alerts.service.impl;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.safetyNet.alerts.model.Person;
-import com.safetyNet.alerts.serializer.PersonSerializer;
+import com.safetyNet.alerts.repository.PersonRepository;
 import com.safetyNet.alerts.service.PersonService;
 
 @Service
 public class PersonServiceImpl implements PersonService {
+	@Autowired
+	@Qualifier("personRepoSingleton")
+	PersonRepository personRepository;
 
 	@Override
 	public List<Person> findAll() {
-		List<Person> liste = new ArrayList<>();
-		PersonSerializer personSerializer = new PersonSerializer();
-		try {
-			personSerializer.parse();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		return personRepository.findAll();
+	}
 
-		liste.addAll(personSerializer.getList());
-		return liste;
+	@Override
+	public void add(Person element) {
+		personRepository.add(element);
+	}
+
+	@Override
+	public void delete(Person element) {
+		personRepository.delete(element);
+	}
+
+	@Override
+	public void update(Person element) {
+		personRepository.update(element);
 	}
 
 }
