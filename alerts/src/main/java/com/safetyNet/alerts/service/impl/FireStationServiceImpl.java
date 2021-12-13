@@ -1,6 +1,5 @@
 package com.safetyNet.alerts.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import com.safetyNet.alerts.service.FireStationService;
 
 @Service
 public class FireStationServiceImpl implements FireStationService {
-	private final List<FireStation> list = new ArrayList<>();
 	@Autowired
 	@Qualifier("fireStationRepoSingleton")
 	FireStationRepository fireStationRepository;
