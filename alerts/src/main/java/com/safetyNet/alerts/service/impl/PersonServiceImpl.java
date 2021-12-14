@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.safetyNet.alerts.dto.MedicalRecordsByPersonDTO;
+import com.safetyNet.alerts.dto.request.ChildAlertDTO;
+import com.safetyNet.alerts.dto.request.PersonInfoDTO;
 import com.safetyNet.alerts.model.Person;
 import com.safetyNet.alerts.repository.PersonRepository;
 import com.safetyNet.alerts.service.FireStationService;
+import com.safetyNet.alerts.service.MedicalRecordsService;
 import com.safetyNet.alerts.service.PersonService;
 
 @Service
@@ -20,6 +22,9 @@ public class PersonServiceImpl implements PersonService {
 
 	@Autowired
 	FireStationService fireStationService;
+
+	@Autowired
+	MedicalRecordsService medicalRecordsService;
 
 	@Override
 	public List<Person> findAll() {
@@ -53,8 +58,16 @@ public class PersonServiceImpl implements PersonService {
 	}
 
 	@Override
-	public List<MedicalRecordsByPersonDTO> fillMedicalRecordsByPersonDTO(
-			List<MedicalRecordsByPersonDTO> medicalRecordsByPersonDTO) {
+	public List<PersonInfoDTO> getMedicalRecordsByPerson(String firstName, String lastName) {
+		List<PersonInfoDTO> medicalRecordsByPersonDTO = medicalRecordsService.getMedicalRecordsByPerson(firstName,
+				lastName);
 		return personRepository.fillMedicalRecordsByPersonDTO(medicalRecordsByPersonDTO);
+	}
+
+	@Override
+	public List<ChildAlertDTO> getChildInfos(String address) {
+		List<ChildAlertDTO> childFamily = personRepository.getFamilyInfos(address);
+		return medicalRecordsService.fillChildInfos(childFamily);
+
 	}
 }

@@ -11,7 +11,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
-import com.safetyNet.alerts.dto.MedicalRecordsByPersonDTO;
+import com.safetyNet.alerts.dto.request.ChildAlertDTO;
+import com.safetyNet.alerts.dto.request.PersonInfoDTO;
 import com.safetyNet.alerts.model.MedicalRecords;
 import com.safetyNet.alerts.repository.MedicalRecordsRepository;
 
@@ -64,11 +65,11 @@ public class MedicalRecordsRepositoryImpl implements MedicalRecordsRepository {
 	}
 
 	@Override
-	public List<MedicalRecordsByPersonDTO> getMedicalRecordsByPerson(String firstName, String lastName) {
-		List<MedicalRecordsByPersonDTO> medicalRecordsByPerson = new ArrayList<>();
+	public List<PersonInfoDTO> getMedicalRecordsByPerson(String firstName, String lastName) {
+		List<PersonInfoDTO> medicalRecordsByPerson = new ArrayList<>();
 		list.forEach(m -> {
 			if (m.getFirstName().equals(firstName) && m.getLastName().equals(lastName)) {
-				MedicalRecordsByPersonDTO medicalRecordsByPersonDTO = new MedicalRecordsByPersonDTO();
+				PersonInfoDTO medicalRecordsByPersonDTO = new PersonInfoDTO();
 
 				medicalRecordsByPersonDTO.setAllergies(m.getAllergies());
 				medicalRecordsByPersonDTO.setMedications(m.getMedications());
@@ -80,6 +81,24 @@ public class MedicalRecordsRepositoryImpl implements MedicalRecordsRepository {
 			}
 		});
 		return medicalRecordsByPerson;
+	}
+
+	@Override
+	public List<ChildAlertDTO> fillChildInfos(List<ChildAlertDTO> childFamily) {
+		List<ChildAlertDTO> childInfos = new ArrayList<>();
+
+		list.forEach(m -> {
+			for (ChildAlertDTO c : childFamily) {
+				if (c.getFirstName().equals(m.getFirstName()) && c.getLastName().equals(m.getLastName())) {
+					int age = (MedicalRecordsRepositoryImpl.getAge(m));
+					if (age < 18) {
+						c.setAge(age);
+						childInfos.add(c);
+					}
+				}
+			}
+		});
+		return childInfos;
 	}
 
 	private static int getAge(MedicalRecords medicalRecords) {

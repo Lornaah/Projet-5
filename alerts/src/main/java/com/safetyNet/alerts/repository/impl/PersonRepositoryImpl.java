@@ -8,7 +8,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
-import com.safetyNet.alerts.dto.MedicalRecordsByPersonDTO;
+import com.safetyNet.alerts.dto.request.ChildAlertDTO;
+import com.safetyNet.alerts.dto.request.PersonInfoDTO;
 import com.safetyNet.alerts.model.Person;
 import com.safetyNet.alerts.repository.PersonRepository;
 
@@ -84,11 +85,10 @@ public class PersonRepositoryImpl implements PersonRepository {
 	}
 
 	@Override
-	public List<MedicalRecordsByPersonDTO> fillMedicalRecordsByPersonDTO(
-			List<MedicalRecordsByPersonDTO> medicalRecordsByPersonDTO) {
+	public List<PersonInfoDTO> fillMedicalRecordsByPersonDTO(List<PersonInfoDTO> medicalRecordsByPersonDTO) {
 
 		list.forEach(p -> {
-			for (MedicalRecordsByPersonDTO m : medicalRecordsByPersonDTO) {
+			for (PersonInfoDTO m : medicalRecordsByPersonDTO) {
 				if (p.getFirstName().equals(m.getFirstName()) && p.getLastName().equals(m.getLastName())) {
 					m.setAddress(p.getAddress());
 					m.setEmail(p.getEmail());
@@ -98,5 +98,34 @@ public class PersonRepositoryImpl implements PersonRepository {
 		});
 
 		return medicalRecordsByPersonDTO;
+	}
+
+	@Override
+	public List<ChildAlertDTO> getFamilyInfos(String address) {
+		List<ChildAlertDTO> familyInfos = new ArrayList<>();
+
+		list.forEach(p -> {
+			if (p.getAddress().equals(address)) {
+				ChildAlertDTO childAlertDTO = new ChildAlertDTO();
+				childAlertDTO.setFirstName(p.getFirstName());
+				childAlertDTO.setLastName(p.getLastName());
+				childAlertDTO.setFamily(getFamily(p));
+				familyInfos.add(childAlertDTO);
+			}
+		});
+		return familyInfos;
+	}
+
+	private List<Person> getFamily(Person child) {
+		List<Person> family = new ArrayList<>();
+
+		list.forEach(p -> {
+			if (p.getAddress().equals(child.getAddress()) && !(p.getFirstName().equals(child.getFirstName())
+					&& p.getLastName().equals(child.getLastName()))) {
+				family.add(p);
+			}
+		});
+		return family;
+
 	}
 }

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.safetyNet.alerts.dto.request.ChildAlertDTO;
+import com.safetyNet.alerts.dto.request.PersonInfoDTO;
 import com.safetyNet.alerts.model.Person;
 import com.safetyNet.alerts.service.PersonService;
 
@@ -56,6 +58,20 @@ public class PersonController {
 	@ResponseStatus(code = HttpStatus.OK)
 	public List<String> getPhoneByFireStation(@RequestParam(name = "firestation") String firestationNum) {
 		return personService.getPhoneByFireStation(firestationNum);
+	}
+
+	@GetMapping("/personInfo")
+	@ResponseStatus(code = HttpStatus.OK)
+	public List<PersonInfoDTO> getMedicalRecordsByPerson(@RequestParam(name = "firstName") String firstName,
+			@RequestParam(name = "lastName") String lastName) {
+		return personService.getMedicalRecordsByPerson(firstName, lastName);
+
+	}
+
+	@GetMapping("childAlert")
+	@ResponseStatus(code = HttpStatus.OK)
+	public List<ChildAlertDTO> getChildInfos(@RequestParam(name = "address") String address) {
+		return personService.getChildInfos(address);
 	}
 
 }

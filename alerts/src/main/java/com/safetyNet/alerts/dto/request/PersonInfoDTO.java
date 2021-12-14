@@ -1,10 +1,10 @@
-package com.safetyNet.alerts.dto;
+package com.safetyNet.alerts.dto.request;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MedicalRecordsByPersonDTO {
+public class PersonInfoDTO {
 
 	private String firstName;
 

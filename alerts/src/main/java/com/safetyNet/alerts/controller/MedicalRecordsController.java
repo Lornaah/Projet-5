@@ -9,11 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.safetyNet.alerts.dto.MedicalRecordsByPersonDTO;
 import com.safetyNet.alerts.model.MedicalRecords;
 import com.safetyNet.alerts.service.MedicalRecordsService;
 
@@ -44,14 +42,6 @@ public class MedicalRecordsController {
 	@ResponseStatus(code = HttpStatus.OK)
 	public void update(@RequestBody MedicalRecords medicalRecords) {
 		medicalRecordsService.update(medicalRecords);
-	}
-
-	@GetMapping("/personInfo")
-	@ResponseStatus(code = HttpStatus.OK)
-	public List<MedicalRecordsByPersonDTO> getMedicalRecordsByPerson(@RequestParam(name = "firstName") String firstName,
-			@RequestParam(name = "lastName") String lastName) {
-		return medicalRecordsService.getMedicalRecordsByPerson(firstName, lastName);
-
 	}
 
 }
