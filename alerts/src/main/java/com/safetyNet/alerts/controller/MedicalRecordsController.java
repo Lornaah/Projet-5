@@ -1,4 +1,4 @@
-package com.safetyNet.alerts.rest;
+package com.safetyNet.alerts.controller;
 
 import java.util.List;
 
@@ -9,41 +9,49 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.safetyNet.alerts.dto.MedicalRecordsByPersonDTO;
 import com.safetyNet.alerts.model.MedicalRecords;
 import com.safetyNet.alerts.service.MedicalRecordsService;
 
 @RestController
-@RequestMapping("/medicalrecords")
 public class MedicalRecordsController {
 
 	@Autowired
 	private MedicalRecordsService medicalRecordsService;
 
-	@GetMapping
+	@GetMapping("/medicalrecords")
 	public List<MedicalRecords> findAll() {
 		return medicalRecordsService.findAll();
 	}
 
-	@PostMapping
+	@PostMapping("/medicalrecords")
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public void create(@RequestBody MedicalRecords medicalRecords) {
 		medicalRecordsService.add(medicalRecords);
 	}
 
-	@DeleteMapping
+	@DeleteMapping("/medicalrecords")
 	@ResponseStatus(code = HttpStatus.OK)
 	public void delete(@RequestBody MedicalRecords medicalRecords) {
 		medicalRecordsService.delete(medicalRecords);
 	}
 
-	@PutMapping
+	@PutMapping("/medicalrecords")
 	@ResponseStatus(code = HttpStatus.OK)
 	public void update(@RequestBody MedicalRecords medicalRecords) {
 		medicalRecordsService.update(medicalRecords);
+	}
+
+	@GetMapping("/personInfo")
+	@ResponseStatus(code = HttpStatus.OK)
+	public List<MedicalRecordsByPersonDTO> getMedicalRecordsByPerson(@RequestParam(name = "firstName") String firstName,
+			@RequestParam(name = "lastName") String lastName) {
+		return medicalRecordsService.getMedicalRecordsByPerson(firstName, lastName);
+
 	}
 
 }

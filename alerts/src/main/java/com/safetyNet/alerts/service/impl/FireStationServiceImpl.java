@@ -41,4 +41,9 @@ public class FireStationServiceImpl implements FireStationService {
 		fireStationRepository.addAll(elements);
 	}
 
+	@Override
+	public List<String> getAddressByFireStation(String fireStationNum) {
+		return fireStationRepository.getAddressByFireStation(fireStationNum);
+	}
+
 }

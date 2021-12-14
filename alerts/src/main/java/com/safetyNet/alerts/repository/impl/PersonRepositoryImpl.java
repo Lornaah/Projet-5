@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
+import com.safetyNet.alerts.dto.MedicalRecordsByPersonDTO;
 import com.safetyNet.alerts.model.Person;
 import com.safetyNet.alerts.repository.PersonRepository;
 
@@ -57,5 +58,45 @@ public class PersonRepositoryImpl implements PersonRepository {
 	@Override
 	public void clear() {
 		list.clear();
+	}
+
+	@Override
+	public List<String> getCommunityMail(String city) {
+		List<String> mailByCity = new ArrayList<>();
+		list.forEach(p -> {
+			if (p.getCity().equals(city)) {
+				mailByCity.add(p.getEmail());
+			}
+		});
+
+		return mailByCity;
+	}
+
+	@Override
+	public List<String> getPhoneByFireStation(List<String> addressByFireStation) {
+		List<String> phoneByFireStation = new ArrayList<>();
+		list.forEach(p -> {
+			if (addressByFireStation.contains(p.getAddress())) {
+				phoneByFireStation.add(p.getPhone());
+			}
+		});
+		return phoneByFireStation;
+	}
+
+	@Override
+	public List<MedicalRecordsByPersonDTO> fillMedicalRecordsByPersonDTO(
+			List<MedicalRecordsByPersonDTO> medicalRecordsByPersonDTO) {
+
+		list.forEach(p -> {
+			for (MedicalRecordsByPersonDTO m : medicalRecordsByPersonDTO) {
+				if (p.getFirstName().equals(m.getFirstName()) && p.getLastName().equals(m.getLastName())) {
+					m.setAddress(p.getAddress());
+					m.setEmail(p.getEmail());
+				}
+
+			}
+		});
+
+		return medicalRecordsByPersonDTO;
 	}
 }

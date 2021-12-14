@@ -2,17 +2,7 @@ package com.safetyNet.alerts.model;
 
 import java.util.Objects;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
-import org.hibernate.annotations.GenericGenerator;
-
 public class Person {
-
-	@Id
-	@GeneratedValue(generator = "system-uuid")
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
-	private String id;
 
 	private String firstName;
 

@@ -56,4 +56,15 @@ public class FireStationRepositoryImpl implements FireStationRepository {
 		list.clear();
 	}
 
+	@Override
+	public List<String> getAddressByFireStation(String fireStationNum) {
+		List<String> address = new ArrayList<>();
+		list.forEach(f -> {
+			if (f.getStation().equals(fireStationNum)) {
+				address.add(f.getAddress());
+			}
+		});
+		return address;
+	}
+
 }

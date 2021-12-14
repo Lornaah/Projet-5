@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.safetyNet.alerts.dto.MedicalRecordsByPersonDTO;
 import com.safetyNet.alerts.model.Person;
 import com.safetyNet.alerts.repository.PersonRepository;
+import com.safetyNet.alerts.service.FireStationService;
 import com.safetyNet.alerts.service.PersonService;
 
 @Service
@@ -15,6 +17,9 @@ public class PersonServiceImpl implements PersonService {
 	@Autowired
 	@Qualifier("personRepoSingleton")
 	PersonRepository personRepository;
+
+	@Autowired
+	FireStationService fireStationService;
 
 	@Override
 	public List<Person> findAll() {
@@ -36,4 +41,20 @@ public class PersonServiceImpl implements PersonService {
 		personRepository.update(element);
 	}
 
+	@Override
+	public List<String> getCommunityMail(String city) {
+		return personRepository.getCommunityMail(city);
+	}
+
+	@Override
+	public List<String> getPhoneByFireStation(String firestationNum) {
+		List<String> addressByFireStation = fireStationService.getAddressByFireStation(firestationNum);
+		return personRepository.getPhoneByFireStation(addressByFireStation);
+	}
+
+	@Override
+	public List<MedicalRecordsByPersonDTO> fillMedicalRecordsByPersonDTO(
+			List<MedicalRecordsByPersonDTO> medicalRecordsByPersonDTO) {
+		return personRepository.fillMedicalRecordsByPersonDTO(medicalRecordsByPersonDTO);
+	}
 }
