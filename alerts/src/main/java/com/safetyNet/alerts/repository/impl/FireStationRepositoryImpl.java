@@ -8,6 +8,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
+import com.safetyNet.alerts.dto.request.FireAlertDTO;
+import com.safetyNet.alerts.dto.request.floodAlert.FloodAlertAddress;
+import com.safetyNet.alerts.dto.request.floodAlert.FloodAlertDTO;
 import com.safetyNet.alerts.model.FireStation;
 import com.safetyNet.alerts.repository.FireStationRepository;
 
@@ -65,6 +68,38 @@ public class FireStationRepositoryImpl implements FireStationRepository {
 			}
 		});
 		return address;
+	}
+
+	@Override
+	public List<FloodAlertDTO> getAddressList(List<String> stations) {
+		List<FloodAlertDTO> addressList = new ArrayList<>();
+		stations.forEach(s -> {
+			FloodAlertDTO floodAlertDTO = new FloodAlertDTO();
+			floodAlertDTO.setStationNum(s);
+
+			List<String> addresses = getAddressByFireStation(s);
+			addresses.forEach(a -> {
+				FloodAlertAddress floodAlertAddress = new FloodAlertAddress();
+				floodAlertAddress.setAddress(a);
+				floodAlertDTO.addAddress(floodAlertAddress);
+			});
+			addressList.add(floodAlertDTO);
+		});
+
+		return addressList;
+	}
+
+	@Override
+	public FireAlertDTO getStationByAddress(String address) {
+		FireAlertDTO fireAlertDTO = new FireAlertDTO();
+		list.forEach(f -> {
+			if (f.getAddress().equals(address)) {
+				fireAlertDTO.setAddress(f.getAddress());
+				fireAlertDTO.setStationNum(f.getStation());
+			}
+		});
+
+		return fireAlertDTO;
 	}
 
 }

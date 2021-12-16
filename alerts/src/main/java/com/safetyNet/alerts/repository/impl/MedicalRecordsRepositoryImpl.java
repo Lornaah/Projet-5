@@ -12,7 +12,12 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
 import com.safetyNet.alerts.dto.request.ChildAlertDTO;
+import com.safetyNet.alerts.dto.request.FireAlertDTO;
 import com.safetyNet.alerts.dto.request.PersonInfoDTO;
+import com.safetyNet.alerts.dto.request.fireStationInfo.FireStationInfosDTO;
+import com.safetyNet.alerts.dto.request.fireStationInfo.PersonByStationNumber;
+import com.safetyNet.alerts.dto.request.floodAlert.FloodAlertDTO;
+import com.safetyNet.alerts.dto.request.floodAlert.FloodAlertPerson;
 import com.safetyNet.alerts.model.MedicalRecords;
 import com.safetyNet.alerts.repository.MedicalRecordsRepository;
 
@@ -106,5 +111,48 @@ public class MedicalRecordsRepositoryImpl implements MedicalRecordsRepository {
 		LocalDate birthdate = LocalDate.parse(birthdateAsString, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 		int age = Period.between(birthdate, LocalDate.now()).getYears();
 		return age;
+	}
+
+	@Override
+	public FireStationInfosDTO countChildAdult(FireStationInfosDTO fireStationInfos) {
+		list.forEach(m -> {
+			for (PersonByStationNumber p : fireStationInfos.getInfoPerson()) {
+				if (p.getFirstName().equals(m.getFirstName()) && p.getLastName().equals(m.getLastName())) {
+					int age = MedicalRecordsRepositoryImpl.getAge(m);
+					if (age < 18) {
+						fireStationInfos.setNbChild(fireStationInfos.getNbChild() + 1);
+					} else {
+						fireStationInfos.setNbAdults(fireStationInfos.getNbAdults() + 1);
+					}
+				}
+			}
+		});
+		return fireStationInfos;
+	}
+
+	@Override
+	public List<FloodAlertDTO> fillFloodAlertDTO(List<FloodAlertDTO> personByAdressList) {
+		personByAdressList.forEach(dto -> {
+			dto.getAddressList().forEach(a -> {
+				a.getListPerson().forEach(p -> fillAlertPersonList(p));
+			});
+		});
+		return personByAdressList;
+	}
+
+	private void fillAlertPersonList(FloodAlertPerson p) {
+		list.forEach(m -> {
+			if (m.getFirstName().equals(p.getFirstName()) && m.getLastName().equals(p.getLastName())) {
+				p.setAge(getAge(m));
+				p.setAllergies(m.getAllergies());
+				p.setMedications(m.getMedications());
+			}
+		});
+	}
+
+	@Override
+	public FireAlertDTO fillMedicalRecordsByPerson(FireAlertDTO infoPerson) {
+		infoPerson.getListPerson().forEach(p -> fillAlertPersonList(p));
+		return infoPerson;
 	}
 }

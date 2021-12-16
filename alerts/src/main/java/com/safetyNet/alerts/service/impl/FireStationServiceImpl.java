@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.safetyNet.alerts.dto.request.FireAlertDTO;
+import com.safetyNet.alerts.dto.request.floodAlert.FloodAlertDTO;
 import com.safetyNet.alerts.model.FireStation;
 import com.safetyNet.alerts.repository.FireStationRepository;
 import com.safetyNet.alerts.service.FireStationService;
@@ -44,6 +46,16 @@ public class FireStationServiceImpl implements FireStationService {
 	@Override
 	public List<String> getAddressByFireStation(String fireStationNum) {
 		return fireStationRepository.getAddressByFireStation(fireStationNum);
+	}
+
+	@Override
+	public List<FloodAlertDTO> getAddressList(List<String> stations) {
+		return fireStationRepository.getAddressList(stations);
+	}
+
+	@Override
+	public FireAlertDTO getStationByAddress(String address) {
+		return fireStationRepository.getStationByAddress(address);
 	}
 
 }

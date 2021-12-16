@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.safetyNet.alerts.dto.request.ChildAlertDTO;
+import com.safetyNet.alerts.dto.request.FireAlertDTO;
 import com.safetyNet.alerts.dto.request.PersonInfoDTO;
+import com.safetyNet.alerts.dto.request.fireStationInfo.FireStationInfosDTO;
+import com.safetyNet.alerts.dto.request.floodAlert.FloodAlertDTO;
 import com.safetyNet.alerts.model.Person;
 import com.safetyNet.alerts.service.PersonService;
 
@@ -72,6 +75,26 @@ public class PersonController {
 	@ResponseStatus(code = HttpStatus.OK)
 	public List<ChildAlertDTO> getChildInfos(@RequestParam(name = "address") String address) {
 		return personService.getChildInfos(address);
+	}
+
+	@GetMapping("firestation")
+	@ResponseStatus(code = HttpStatus.OK)
+	public FireStationInfosDTO getPersonByStationNumber(@RequestParam(name = "stationNumber") String stationNumber) {
+		return personService.getPersonByStationNumber(stationNumber);
+
+	}
+
+	@GetMapping("flood/stations")
+	@ResponseStatus(code = HttpStatus.OK)
+	public List<FloodAlertDTO> getFloodAlert(@RequestParam(name = "stations") List<String> stations) {
+		return personService.getFloodAlert(stations);
+
+	}
+
+	@GetMapping("fire")
+	@ResponseStatus(code = HttpStatus.OK)
+	public FireAlertDTO getFireAlert(@RequestParam(name = "address") String address) {
+		return personService.getFireAlert(address);
 	}
 
 }

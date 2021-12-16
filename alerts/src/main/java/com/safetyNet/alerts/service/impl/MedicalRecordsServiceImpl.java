@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.safetyNet.alerts.dto.request.ChildAlertDTO;
+import com.safetyNet.alerts.dto.request.FireAlertDTO;
 import com.safetyNet.alerts.dto.request.PersonInfoDTO;
+import com.safetyNet.alerts.dto.request.fireStationInfo.FireStationInfosDTO;
+import com.safetyNet.alerts.dto.request.floodAlert.FloodAlertDTO;
 import com.safetyNet.alerts.model.MedicalRecords;
 import com.safetyNet.alerts.repository.MedicalRecordsRepository;
 import com.safetyNet.alerts.service.MedicalRecordsService;
@@ -51,6 +54,21 @@ public class MedicalRecordsServiceImpl implements MedicalRecordsService {
 	@Override
 	public List<PersonInfoDTO> getMedicalRecordsByPerson(String firstName, String lastName) {
 		return medicalRecordsRepository.getMedicalRecordsByPerson(firstName, lastName);
+	}
+
+	@Override
+	public FireStationInfosDTO countChildAdult(FireStationInfosDTO fireStationInfos) {
+		return medicalRecordsRepository.countChildAdult(fireStationInfos);
+	}
+
+	@Override
+	public List<FloodAlertDTO> fillFloodAlertDTO(List<FloodAlertDTO> personByAdressList) {
+		return medicalRecordsRepository.fillFloodAlertDTO(personByAdressList);
+	}
+
+	@Override
+	public FireAlertDTO fillMedicalRecordsByPerson(FireAlertDTO infoPerson) {
+		return medicalRecordsRepository.fillMedicalRecordsByPerson(infoPerson);
 	}
 
 }

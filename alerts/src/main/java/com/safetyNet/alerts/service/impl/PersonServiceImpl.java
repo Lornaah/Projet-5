@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.safetyNet.alerts.dto.request.ChildAlertDTO;
+import com.safetyNet.alerts.dto.request.FireAlertDTO;
 import com.safetyNet.alerts.dto.request.PersonInfoDTO;
+import com.safetyNet.alerts.dto.request.fireStationInfo.FireStationInfosDTO;
+import com.safetyNet.alerts.dto.request.floodAlert.FloodAlertDTO;
 import com.safetyNet.alerts.model.Person;
 import com.safetyNet.alerts.repository.PersonRepository;
 import com.safetyNet.alerts.service.FireStationService;
@@ -69,5 +72,29 @@ public class PersonServiceImpl implements PersonService {
 		List<ChildAlertDTO> childFamily = personRepository.getFamilyInfos(address);
 		return medicalRecordsService.fillChildInfos(childFamily);
 
+	}
+
+	@Override
+	public FireStationInfosDTO getPersonByStationNumber(String stationNumber) {
+		List<String> addresses = fireStationService.getAddressByFireStation(stationNumber);
+		FireStationInfosDTO fireStationInfos = personRepository.getFireStationInfos(stationNumber, addresses);
+		FireStationInfosDTO countChildAdult = medicalRecordsService.countChildAdult(fireStationInfos);
+		return countChildAdult;
+	}
+
+	@Override
+	public List<FloodAlertDTO> getFloodAlert(List<String> stations) {
+		List<FloodAlertDTO> addressList = fireStationService.getAddressList(stations);
+		List<FloodAlertDTO> personByAdressList = personRepository.getPersonByAddress(addressList);
+		List<FloodAlertDTO> filledFloodAlertDTO = medicalRecordsService.fillFloodAlertDTO(personByAdressList);
+		return filledFloodAlertDTO;
+	}
+
+	@Override
+	public FireAlertDTO getFireAlert(String address) {
+		FireAlertDTO firePersonInfo = fireStationService.getStationByAddress(address);
+		FireAlertDTO infoPerson = personRepository.fillFirePersonInfo(firePersonInfo);
+		FireAlertDTO filledFirePersonInfo = medicalRecordsService.fillMedicalRecordsByPerson(infoPerson);
+		return filledFirePersonInfo;
 	}
 }

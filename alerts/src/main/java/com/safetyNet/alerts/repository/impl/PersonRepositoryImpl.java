@@ -9,7 +9,13 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
 import com.safetyNet.alerts.dto.request.ChildAlertDTO;
+import com.safetyNet.alerts.dto.request.FireAlertDTO;
 import com.safetyNet.alerts.dto.request.PersonInfoDTO;
+import com.safetyNet.alerts.dto.request.fireStationInfo.FireStationInfosDTO;
+import com.safetyNet.alerts.dto.request.fireStationInfo.PersonByStationNumber;
+import com.safetyNet.alerts.dto.request.floodAlert.FloodAlertAddress;
+import com.safetyNet.alerts.dto.request.floodAlert.FloodAlertDTO;
+import com.safetyNet.alerts.dto.request.floodAlert.FloodAlertPerson;
 import com.safetyNet.alerts.model.Person;
 import com.safetyNet.alerts.repository.PersonRepository;
 
@@ -86,14 +92,12 @@ public class PersonRepositoryImpl implements PersonRepository {
 
 	@Override
 	public List<PersonInfoDTO> fillMedicalRecordsByPersonDTO(List<PersonInfoDTO> medicalRecordsByPersonDTO) {
-
 		list.forEach(p -> {
 			for (PersonInfoDTO m : medicalRecordsByPersonDTO) {
 				if (p.getFirstName().equals(m.getFirstName()) && p.getLastName().equals(m.getLastName())) {
 					m.setAddress(p.getAddress());
 					m.setEmail(p.getEmail());
 				}
-
 			}
 		});
 
@@ -127,5 +131,59 @@ public class PersonRepositoryImpl implements PersonRepository {
 		});
 		return family;
 
+	}
+
+	@Override
+	public FireStationInfosDTO getFireStationInfos(String stationNumber, List<String> addresses) {
+		FireStationInfosDTO fireStationInfos = new FireStationInfosDTO();
+
+		fireStationInfos.setStationNumber(stationNumber);
+		list.forEach(p -> {
+			if (addresses.contains(p.getAddress())) {
+				PersonByStationNumber person = new PersonByStationNumber(p.getFirstName(), p.getLastName(),
+						p.getAddress(), p.getPhone());
+
+				fireStationInfos.addPerson(person);
+			}
+		});
+		return fireStationInfos;
+	}
+
+	@Override
+	public List<FloodAlertDTO> getPersonByAddress(List<FloodAlertDTO> floodAlertDTOList) {
+		floodAlertDTOList.forEach(f -> {
+			f.getAddressList().forEach(a -> fillListPerson(a));
+		});
+		return floodAlertDTOList;
+	}
+
+	private void fillListPerson(FloodAlertAddress floodAlertAddress) {
+		list.forEach(l -> {
+			if (l.getAddress().equals(floodAlertAddress.getAddress())) {
+				FloodAlertPerson person = new FloodAlertPerson();
+				person = createPerson(l);
+				floodAlertAddress.addPerson(person);
+			}
+		});
+	}
+
+	@Override
+	public FireAlertDTO fillFirePersonInfo(FireAlertDTO firePersonInfo) {
+		list.forEach(p -> {
+			if (p.getAddress().equals(firePersonInfo.getAddress())) {
+				FloodAlertPerson person = new FloodAlertPerson();
+				person = createPerson(p);
+				firePersonInfo.addPerson(person);
+			}
+		});
+		return firePersonInfo;
+	}
+
+	private FloodAlertPerson createPerson(Person p) {
+		FloodAlertPerson person = new FloodAlertPerson();
+		person.setFirstName(p.getFirstName());
+		person.setLastName(p.getLastName());
+		person.setPhoneNumber(p.getPhone());
+		return person;
 	}
 }
