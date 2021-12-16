@@ -47,8 +47,8 @@ public class MedicalRecordsRepositoryImpl implements MedicalRecordsRepository {
 		list.forEach(m -> {
 			if (m.equals(element)) {
 				m.setBirthdate(element.getBirthdate());
-				m.setAllergies(element.getAllergies());
 				m.setMedications(element.getMedications());
+				m.setAllergies(element.getAllergies());
 			}
 		});
 	}

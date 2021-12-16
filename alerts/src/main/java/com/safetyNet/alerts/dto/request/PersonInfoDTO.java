@@ -65,7 +65,7 @@ public class PersonInfoDTO {
 	}
 
 	public List<String> getAllergies() {
-		return Collections.unmodifiableList(medications);
+		return Collections.unmodifiableList(allergies);
 	}
 
 	public void setAllergies(List<String> allergies) {
