@@ -68,4 +68,10 @@ public class FloodAlertPerson {
 		this.allergies.addAll(allergies);
 	}
 
+	@Override
+	public String toString() {
+		return "FloodAlertPerson [firstName=" + firstName + ", lastName=" + lastName + ", medications=" + medications
+				+ ", allergies=" + allergies + ", phoneNumber=" + phoneNumber + ", age=" + age + "]";
+	}
+
 }

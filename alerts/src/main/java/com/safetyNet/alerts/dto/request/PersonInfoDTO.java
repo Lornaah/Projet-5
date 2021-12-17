@@ -78,4 +78,10 @@ public class PersonInfoDTO {
 		this.medications.addAll(medications);
 	}
 
+	@Override
+	public String toString() {
+		return "PersonInfoDTO [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", age="
+				+ age + ", email=" + email + ", medications=" + medications + ", allergies=" + allergies + "]";
+	}
+
 }

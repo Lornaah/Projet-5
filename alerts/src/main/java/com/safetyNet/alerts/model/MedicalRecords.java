@@ -75,4 +75,11 @@ public class MedicalRecords {
 		MedicalRecords other = (MedicalRecords) obj;
 		return Objects.equals(firstName, other.firstName) && Objects.equals(lastName, other.lastName);
 	}
+
+	@Override
+	public String toString() {
+		return "MedicalRecords [firstName=" + firstName + ", lastName=" + lastName + ", birthdate=" + birthdate
+				+ ", medications=" + medications + ", allergies=" + allergies + "]";
+	}
+
 }

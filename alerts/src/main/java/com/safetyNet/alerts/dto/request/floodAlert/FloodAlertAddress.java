@@ -31,4 +31,9 @@ public class FloodAlertAddress {
 		listPerson.add(person);
 	}
 
+	@Override
+	public String toString() {
+		return "FloodAlertAddress [address=" + address + ", listPerson=" + listPerson + "]";
+	}
+
 }

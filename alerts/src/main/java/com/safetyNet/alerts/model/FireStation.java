@@ -41,4 +41,9 @@ public class FireStation {
 		return Objects.equals(address, other.address);
 	}
 
+	@Override
+	public String toString() {
+		return "FireStation [address=" + address + ", station=" + station + "]";
+	}
+
 }

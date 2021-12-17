@@ -91,4 +91,10 @@ public class Person {
 		return Objects.equals(firstName, other.firstName) && Objects.equals(lastName, other.lastName);
 	}
 
+	@Override
+	public String toString() {
+		return "Person [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", city=" + city
+				+ ", zip=" + zip + ", phone=" + phone + ", email=" + email + "]";
+	}
+
 }

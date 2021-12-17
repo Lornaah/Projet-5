@@ -31,4 +31,9 @@ public class FloodAlertDTO {
 		addressList.add(address);
 	}
 
+	@Override
+	public String toString() {
+		return "FloodAlertDTO [stationNum=" + stationNum + ", addressList=" + addressList + "]";
+	}
+
 }

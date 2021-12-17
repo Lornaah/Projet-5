@@ -50,4 +50,11 @@ public class FireStationInfosDTO {
 	public void addPerson(PersonByStationNumber person) {
 		infoPerson.add(person);
 	}
+
+	@Override
+	public String toString() {
+		return "FireStationInfosDTO [stationNumber=" + stationNumber + ", infoPerson=" + infoPerson + ", nbAdults="
+				+ nbAdults + ", nbChild=" + nbChild + "]";
+	}
+
 }

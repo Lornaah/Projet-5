@@ -49,4 +49,10 @@ public class ChildAlertDTO {
 		this.family.addAll(family);
 	}
 
+	@Override
+	public String toString() {
+		return "ChildAlertDTO [firstName=" + firstName + ", lastName=" + lastName + ", age=" + age + ", family="
+				+ family + "]";
+	}
+
 }

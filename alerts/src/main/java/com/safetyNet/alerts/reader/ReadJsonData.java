@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
@@ -18,6 +20,7 @@ import com.safetyNet.alerts.model.Person;
 public class ReadJsonData implements com.safetyNet.alerts.reader.IJsonReader {
 
 	Resource resource = new ClassPathResource("data.json");
+	private static Logger logger = LogManager.getLogger(ReadJsonData.class);
 
 	@Override
 	public JsonListDTO getObjects() throws IOException {
@@ -55,7 +58,7 @@ public class ReadJsonData implements com.safetyNet.alerts.reader.IJsonReader {
 		try {
 			list.add(deserialize(node, valueType));
 		} catch (JsonProcessingException | IllegalArgumentException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 	}
 }

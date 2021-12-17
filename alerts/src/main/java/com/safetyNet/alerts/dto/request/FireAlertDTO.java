@@ -42,4 +42,10 @@ public class FireAlertDTO {
 	public void addPerson(FloodAlertPerson person) {
 		infoPerson.add(person);
 	}
+
+	@Override
+	public String toString() {
+		return "FireAlertDTO [address=" + address + ", stationNum=" + stationNum + ", infoPerson=" + infoPerson + "]";
+	}
+
 }
