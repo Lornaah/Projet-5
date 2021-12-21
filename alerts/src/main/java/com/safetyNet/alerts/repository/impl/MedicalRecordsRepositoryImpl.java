@@ -106,7 +106,7 @@ public class MedicalRecordsRepositoryImpl implements MedicalRecordsRepository {
 		return childInfos;
 	}
 
-	private static int getAge(MedicalRecords medicalRecords) {
+	private static int getAge(MedicalRecords medicalRecords) { // log debug
 		String birthdateAsString = (medicalRecords.getBirthdate());
 		LocalDate birthdate = LocalDate.parse(birthdateAsString, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 		int age = Period.between(birthdate, LocalDate.now()).getYears();

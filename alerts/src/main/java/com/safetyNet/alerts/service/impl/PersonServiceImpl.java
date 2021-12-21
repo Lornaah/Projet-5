@@ -78,23 +78,20 @@ public class PersonServiceImpl implements PersonService {
 	public FireStationInfosDTO getPersonByStationNumber(String stationNumber) {
 		List<String> addresses = fireStationService.getAddressByFireStation(stationNumber);
 		FireStationInfosDTO fireStationInfos = personRepository.getFireStationInfos(stationNumber, addresses);
-		FireStationInfosDTO countChildAdult = medicalRecordsService.countChildAdult(fireStationInfos);
-		return countChildAdult;
+		return medicalRecordsService.countChildAdult(fireStationInfos);
 	}
 
 	@Override
 	public List<FloodAlertDTO> getFloodAlert(List<String> stations) {
 		List<FloodAlertDTO> addressList = fireStationService.getAddressList(stations);
 		List<FloodAlertDTO> personByAdressList = personRepository.getPersonByAddress(addressList);
-		List<FloodAlertDTO> filledFloodAlertDTO = medicalRecordsService.fillFloodAlertDTO(personByAdressList);
-		return filledFloodAlertDTO;
+		return medicalRecordsService.fillFloodAlertDTO(personByAdressList);
 	}
 
 	@Override
 	public FireAlertDTO getFireAlert(String address) {
 		FireAlertDTO firePersonInfo = fireStationService.getStationByAddress(address);
 		FireAlertDTO infoPerson = personRepository.fillFirePersonInfo(firePersonInfo);
-		FireAlertDTO filledFirePersonInfo = medicalRecordsService.fillMedicalRecordsByPerson(infoPerson);
-		return filledFirePersonInfo;
+		return medicalRecordsService.fillMedicalRecordsByPerson(infoPerson);
 	}
 }

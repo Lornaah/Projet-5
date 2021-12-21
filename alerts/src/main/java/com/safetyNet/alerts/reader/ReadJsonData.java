@@ -17,9 +17,9 @@ import com.safetyNet.alerts.model.FireStation;
 import com.safetyNet.alerts.model.MedicalRecords;
 import com.safetyNet.alerts.model.Person;
 
-public class ReadJsonData implements com.safetyNet.alerts.reader.IJsonReader {
+public class ReadJsonData implements IJsonReader {
 
-	Resource resource = new ClassPathResource("data.json");
+	private Resource resource = new ClassPathResource("data.json");
 	private static Logger logger = LogManager.getLogger(ReadJsonData.class);
 
 	@Override

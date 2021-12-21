@@ -66,9 +66,9 @@ public class PersonController {
 	@GetMapping("/communityEmail")
 	@ResponseStatus(code = HttpStatus.OK)
 	public List<String> getCommunityMail(@RequestParam(name = "city") String city) {
-		logger.info("getCommunityMail called");
+		logger.info("/communityEmail called");
 		List<String> mails = personService.getCommunityMail(city);
-		logger.info("getCommunityMail response : " + mails);
+		logger.info("/communityEmail response : " + mails);
 		return mails;
 
 	}
@@ -76,9 +76,9 @@ public class PersonController {
 	@GetMapping("/phoneAlert")
 	@ResponseStatus(code = HttpStatus.OK)
 	public List<String> getPhoneByFireStation(@RequestParam(name = "firestation") String firestationNum) {
-		logger.info("phoneAlert called");
+		logger.info("/phoneAlert called");
 		List<String> persons = personService.getPhoneByFireStation(firestationNum);
-		logger.info("phoneAlert response : " + persons);
+		logger.info("/phoneAlert response : " + persons);
 		return persons;
 	}
 
@@ -86,9 +86,9 @@ public class PersonController {
 	@ResponseStatus(code = HttpStatus.OK)
 	public List<PersonInfoDTO> getMedicalRecordsByPerson(@RequestParam(name = "firstName") String firstName,
 			@RequestParam(name = "lastName") String lastName) {
-		logger.info("personInfo called");
+		logger.info("/personInfo called");
 		List<PersonInfoDTO> medicalRecordsByPerson = personService.getMedicalRecordsByPerson(firstName, lastName);
-		logger.info("personInfo response : " + medicalRecordsByPerson);
+		logger.info("/personInfo response : " + medicalRecordsByPerson);
 		return medicalRecordsByPerson;
 
 	}
@@ -96,36 +96,36 @@ public class PersonController {
 	@GetMapping("childAlert")
 	@ResponseStatus(code = HttpStatus.OK)
 	public List<ChildAlertDTO> getChildInfos(@RequestParam(name = "address") String address) {
-		logger.info("childAlert called");
+		logger.info("/childAlert called"); // mettre le chemin de la requete
 		List<ChildAlertDTO> childList = personService.getChildInfos(address);
-		logger.info("childAlert response : " + childList);
+		logger.info("/childAlert response : " + childList);
 		return childList;
 	}
 
 	@GetMapping("firestation")
 	@ResponseStatus(code = HttpStatus.OK)
 	public FireStationInfosDTO getPersonByStationNumber(@RequestParam(name = "stationNumber") String stationNumber) {
-		logger.info("personByStationNumber called");
+		logger.info("/firestation called");
 		FireStationInfosDTO persons = personService.getPersonByStationNumber(stationNumber);
-		logger.info("personByStationNumber response : " + persons);
+		logger.info("/firestation response : " + persons);
 		return persons;
 	}
 
 	@GetMapping("flood/stations")
 	@ResponseStatus(code = HttpStatus.OK)
 	public List<FloodAlertDTO> getFloodAlert(@RequestParam(name = "stations") List<String> stations) {
-		logger.info("floodAlert called");
+		logger.info("/flood/stations called");
 		List<FloodAlertDTO> floodAlertList = personService.getFloodAlert(stations);
-		logger.info("floodAlert response " + floodAlertList);
+		logger.info("/flood/stations response " + floodAlertList);
 		return floodAlertList;
 	}
 
 	@GetMapping("fire")
 	@ResponseStatus(code = HttpStatus.OK)
 	public FireAlertDTO getFireAlert(@RequestParam(name = "address") String address) {
-		logger.info("fireAlert called");
+		logger.info("/fire called");
 		FireAlertDTO persons = personService.getFireAlert(address);
-		logger.info("fireAlert response : " + persons);
+		logger.info("/fire response : " + persons);
 		return persons;
 	}
 
