@@ -77,7 +77,9 @@ public class PersonRepositoryImpl implements PersonRepository {
 		list.forEach(p -> {
 			logger.debug("determining if " + p.getCity() + " equals " + city);
 			if (p.getCity().equals(city)) {
+
 				logger.debug("adding " + p.getEmail() + " to the list");
+
 				mailByCity.add(p.getEmail());
 			}
 		});
@@ -89,7 +91,13 @@ public class PersonRepositoryImpl implements PersonRepository {
 	public List<String> getPhoneByFireStation(List<String> addressByFireStation) {
 		List<String> phoneByFireStation = new ArrayList<>();
 		list.forEach(p -> {
+
+			logger.debug("determining if " + p.getAddress() + "is in addressByFireStation");
+
 			if (addressByFireStation.contains(p.getAddress())) {
+
+				logger.debug("adding " + p.getPhone() + " to the list");
+
 				phoneByFireStation.add(p.getPhone());
 			}
 		});
@@ -100,6 +108,9 @@ public class PersonRepositoryImpl implements PersonRepository {
 	public List<PersonInfoDTO> fillMedicalRecordsByPersonDTO(List<PersonInfoDTO> medicalRecordsByPersonDTO) {
 		list.forEach(p -> {
 			for (PersonInfoDTO m : medicalRecordsByPersonDTO) {
+
+				logger.debug("comparing person" + p + " to the medicalRecords" + m);
+
 				if (p.getFirstName().equals(m.getFirstName()) && p.getLastName().equals(m.getLastName())) {
 					m.setAddress(p.getAddress());
 					m.setEmail(p.getEmail());
@@ -115,11 +126,17 @@ public class PersonRepositoryImpl implements PersonRepository {
 		List<ChildAlertDTO> familyInfos = new ArrayList<>();
 
 		list.forEach(p -> {
+
+			logger.debug("determining if " + address + "is equals to " + p.getAddress());
+
 			if (p.getAddress().equals(address)) {
 				ChildAlertDTO childAlertDTO = new ChildAlertDTO();
 				childAlertDTO.setFirstName(p.getFirstName());
 				childAlertDTO.setLastName(p.getLastName());
 				childAlertDTO.setFamily(getFamily(p));
+
+				logger.debug("adding " + childAlertDTO + "to the list");
+
 				familyInfos.add(childAlertDTO);
 			}
 		});
@@ -130,8 +147,15 @@ public class PersonRepositoryImpl implements PersonRepository {
 		List<Person> family = new ArrayList<>();
 
 		list.forEach(p -> {
+
+			logger.debug("determining if " + child.getAddress() + "is equals to " + p.getAddress() + "and if "
+					+ child.getFirstName() + "is equals to " + p.getFirstName());
+
 			if (p.getAddress().equals(child.getAddress()) && !(p.getFirstName().equals(child.getFirstName())
 					&& p.getLastName().equals(child.getLastName()))) {
+
+				logger.debug("adding " + p + "to the list");
+
 				family.add(p);
 			}
 		});
@@ -145,9 +169,14 @@ public class PersonRepositoryImpl implements PersonRepository {
 
 		fireStationInfos.setStationNumber(stationNumber);
 		list.forEach(p -> {
+
+			logger.debug("determining if " + addresses + "contains " + p.getAddress());
+
 			if (addresses.contains(p.getAddress())) {
 				PersonByStationNumber person = new PersonByStationNumber(p.getFirstName(), p.getLastName(),
 						p.getAddress(), p.getPhone());
+
+				logger.debug("adding " + person + "to " + fireStationInfos);
 
 				fireStationInfos.addPerson(person);
 			}
@@ -158,16 +187,26 @@ public class PersonRepositoryImpl implements PersonRepository {
 	@Override
 	public List<FloodAlertDTO> getPersonByAddress(List<FloodAlertDTO> floodAlertDTOList) {
 		floodAlertDTOList.forEach(f -> {
+
 			f.getAddressList().forEach(a -> fillListPerson(a));
+
+			logger.debug("adding each elements of " + f.getAddressList() + " to the list");
+
 		});
 		return floodAlertDTOList;
 	}
 
 	private void fillListPerson(FloodAlertAddress floodAlertAddress) {
 		list.forEach(l -> {
+
+			logger.debug("determining if " + l.getAddress() + "is equals to " + floodAlertAddress.getAddress());
+
 			if (l.getAddress().equals(floodAlertAddress.getAddress())) {
 				FloodAlertPerson person = new FloodAlertPerson();
 				person = createPerson(l);
+
+				logger.debug("adding " + person + "to " + floodAlertAddress);
+
 				floodAlertAddress.addPerson(person);
 			}
 		});
@@ -176,9 +215,15 @@ public class PersonRepositoryImpl implements PersonRepository {
 	@Override
 	public FireAlertDTO fillFirePersonInfo(FireAlertDTO firePersonInfo) {
 		list.forEach(p -> {
+
+			logger.debug("determining if " + p.getAddress() + "is equals to " + firePersonInfo.getAddress());
+
 			if (p.getAddress().equals(firePersonInfo.getAddress())) {
 				FloodAlertPerson person = new FloodAlertPerson();
 				person = createPerson(p);
+
+				logger.debug("adding " + person + "to " + firePersonInfo);
+
 				firePersonInfo.addPerson(person);
 			}
 		});

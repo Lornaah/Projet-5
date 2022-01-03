@@ -42,6 +42,7 @@ public class DataService implements CommandLineRunner {
 			personRepository.addAll(dto.getListPersons());
 			medicalRecordsRepository.addAll(dto.getListMedicalRecords());
 			fireStationRepository.addAll(dto.getListFireStations());
+
 		} catch (IOException e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();

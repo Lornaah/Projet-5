@@ -96,7 +96,7 @@ public class PersonController {
 	@GetMapping("childAlert")
 	@ResponseStatus(code = HttpStatus.OK)
 	public List<ChildAlertDTO> getChildInfos(@RequestParam(name = "address") String address) {
-		logger.info("/childAlert called"); // mettre le chemin de la requete
+		logger.info("/childAlert called");
 		List<ChildAlertDTO> childList = personService.getChildInfos(address);
 		logger.info("/childAlert response : " + childList);
 		return childList;
