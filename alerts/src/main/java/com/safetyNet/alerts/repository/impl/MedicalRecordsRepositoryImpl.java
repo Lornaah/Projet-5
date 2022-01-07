@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
@@ -23,6 +25,8 @@ import com.safetyNet.alerts.repository.MedicalRecordsRepository;
 
 @Repository
 public class MedicalRecordsRepositoryImpl implements MedicalRecordsRepository {
+
+	private static Logger logger = LogManager.getLogger(MedicalRecordsRepositoryImpl.class);
 
 	private final List<MedicalRecords> list = new ArrayList<>();
 
@@ -106,10 +110,14 @@ public class MedicalRecordsRepositoryImpl implements MedicalRecordsRepository {
 		return childInfos;
 	}
 
-	private static int getAge(MedicalRecords medicalRecords) { // log debug
+	private static int getAge(MedicalRecords medicalRecords) {
+
 		String birthdateAsString = (medicalRecords.getBirthdate());
 		LocalDate birthdate = LocalDate.parse(birthdateAsString, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 		int age = Period.between(birthdate, LocalDate.now()).getYears();
+
+		logger.debug("Getting difference between" + LocalDate.now().toString() + " and " + birthdate.toString());
+
 		return age;
 	}
 
@@ -117,6 +125,9 @@ public class MedicalRecordsRepositoryImpl implements MedicalRecordsRepository {
 	public FireStationInfosDTO countChildAdult(FireStationInfosDTO fireStationInfos) {
 		list.forEach(m -> {
 			for (PersonByStationNumber p : fireStationInfos.getInfoPerson()) {
+
+				logger.debug("determining if " + p.toString() + " is the same person than " + m.toString());
+
 				if (p.getFirstName().equals(m.getFirstName()) && p.getLastName().equals(m.getLastName())) {
 					int age = MedicalRecordsRepositoryImpl.getAge(m);
 					if (age < 18) {
@@ -142,6 +153,9 @@ public class MedicalRecordsRepositoryImpl implements MedicalRecordsRepository {
 
 	private void fillAlertPersonList(FloodAlertPerson p) {
 		list.forEach(m -> {
+
+			logger.debug("determining if " + p.toString() + " is the same person than " + m.toString());
+
 			if (m.getFirstName().equals(p.getFirstName()) && m.getLastName().equals(p.getLastName())) {
 				p.setAge(getAge(m));
 				p.setAllergies(m.getAllergies());

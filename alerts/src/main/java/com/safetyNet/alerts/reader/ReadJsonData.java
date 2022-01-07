@@ -24,8 +24,10 @@ public class ReadJsonData implements IJsonReader {
 
 	@Override
 	public JsonListDTO getObjects() throws IOException {
-		if (resource == null)
+		if (resource == null) {
+			logger.error("There was a problem when reading data.json");
 			return new JsonListDTO();
+		}
 
 		ArrayList<Person> listPersons = new ArrayList<>();
 		ArrayList<FireStation> listFireStations = new ArrayList<>();
